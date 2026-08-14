@@ -106,6 +106,25 @@ inputPass.addEventListener('keypress', function (e) {
 // ==========================================
 // 5.1 MINIJUEGO: ¿QUIÉN ES ESE POKÉMON?
 // ==========================================
+const btnPowerOn = document.getElementById('btn-power-on');
+const powerOnScreen = document.getElementById('power-on-screen');
+const gameScreen = document.getElementById('game-screen');
+
+// El botón que destraba el audio
+btnPowerOn.addEventListener('click', () => {
+    // 1. Ocultar botón y mostrar el juego
+    powerOnScreen.classList.add('hidden');
+    gameScreen.classList.remove('hidden');
+    
+    // 2. REPRODUCIR AUDIO (Ahora sí el navegador nos deja)
+    const audio = new Audio("https://www.myinstants.com/media/sounds/whos-that-pokemon_.mp3");
+    audio.volume = 0.6;
+    audio.play();
+
+    // 3. Cargar el Pokémon
+    loadCaptcha();
+});
+
 async function loadCaptcha() {
     captchaPassed = false;
     captchaImg.classList.add('silhouette');
@@ -113,34 +132,22 @@ async function loadCaptcha() {
     passwordSection.classList.add('hidden');
     captchaButtons.innerHTML = "Cargando...";
 
-    // --- NUEVO: REPRODUCIR AUDIO ---
-    const audio = new Audio("https://www.myinstants.com/media/sounds/whos-that-pokemon_.mp3");
-    audio.volume = 0.5; // Volumen al 50% para no asustar
-    audio.play().catch(e => console.log("El navegador bloqueó el auto-play del audio."));
-    // -------------------------------
-
     try {
-        // Elegir 3 números al azar de la 1ra Generación (1 al 151)
-// ... (el resto del código de la función se queda igual)
         const randomIds = [];
         while(randomIds.length < 3) {
             let r = Math.floor(Math.random() * 151) + 1;
             if(randomIds.indexOf(r) === -1) randomIds.push(r);
         }
 
-        // Descargar los nombres de la API
         const promises = randomIds.map(id => fetch(`https://pokeapi.co/api/v2/pokemon/${id}`).then(res => res.json()));
         const pokemons = await Promise.all(promises);
 
-        // Elegir la respuesta correcta al azar de esos 3
         const correctIndex = Math.floor(Math.random() * 3);
         const correctPokemon = pokemons[correctIndex];
 
-        // Mostrar la imagen y la PISTA
         captchaImg.src = correctPokemon.sprites.front_default;
         captchaHint.textContent = `Pista: Es ${correctPokemon.name.toUpperCase()}`;
 
-        // Crear los 3 botones
         captchaButtons.innerHTML = "";
         pokemons.forEach((poke, index) => {
             const btn = document.createElement('button');
@@ -149,15 +156,13 @@ async function loadCaptcha() {
             
             btn.onclick = () => {
                 if(index === correctIndex) {
-                    // Acertó
                     captchaPassed = true;
                     captchaImg.classList.add('revealed');
                     captchaHint.textContent = "¡CORRECTO!";
                     captchaHint.style.color = "green";
-                    captchaButtons.innerHTML = ""; // Quitar botones
-                    passwordSection.classList.remove('hidden'); // Mostrar campo de contraseña
+                    captchaButtons.innerHTML = "";
+                    passwordSection.classList.remove('hidden');
                 } else {
-                    // Falló
                     captchaImg.style.transform = "translateX(5px)";
                     setTimeout(() => captchaImg.style.transform = "translateX(0)", 200);
                     alert("¡Ese no es! Intenta de nuevo.");
@@ -170,7 +175,6 @@ async function loadCaptcha() {
         captchaHint.textContent = "Error de red. Intenta recargar la página.";
     }
 }
-
 // ==========================================
 // 6. LÓGICA DE CARGA DE EXCEL (Próximamente)
 // ==========================================
