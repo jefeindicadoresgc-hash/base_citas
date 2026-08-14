@@ -11,11 +11,11 @@
 </head>
 <body>
 
-<!-- ==========================================
+    <!-- ==========================================
          SECCIÓN 0: DECORACIONES POKÉMON (FONDO)
          ========================================== -->
     <div id="decorations">
-        <!-- Snorlax Acostado (Tu archivo local) -->
+        <!-- Snorlax (Aparecerá cuando subas tu imagen image_1774f4.png) -->
         <div class="snorlax-container">
             <div class="zzz zzz1">Z</div>
             <div class="zzz zzz2">z</div>
@@ -23,18 +23,33 @@
             <img src="image_1774f4.png" alt="Snorlax Relajado" class="snorlax-img">
         </div>
         
-        <!-- Squirtle Saxofonista (Tu archivo local) -->
+        <!-- Squirtle (Aparecerá cuando subas tu imagen image_17749a.png) -->
         <div class="squirtle-container">
             <img src="image_17749a.png" alt="Squirtle Sax" class="squirtle-img">
         </div>
     </div>
 
-    <!-- ... (El inicio de la Sección 1 se queda igual) ... -->
-
+    <!-- ==========================================
+         SECCIÓN 1: PANTALLA DE LOGIN (POKÉDEX)
+         ========================================== -->
+    <div id="login-screen" class="screen active">
+        <div class="pokedex-container">
+            <div class="screen-header">
+                <div class="blue-light"></div>
+                <div class="small-lights">
+                    <div class="red-light"></div>
+                    <div class="yellow-light"></div>
+                    <div class="green-light"></div>
+                </div>
+            </div>
+            
+            <div class="pokedex-screen">
+                <h2>CENTRO HYUNDAI</h2>
+                
                 <!-- Minijuego CAPTCHA -->
                 <div id="captcha-section" class="captcha-box">
                     
-                    <!-- NUEVO: Botón para encender y destrabar el audio -->
+                    <!-- Botón para encender y destrabar el audio -->
                     <div id="power-on-screen">
                         <button id="btn-power-on" class="poke-btn" style="background-color: #4CAF50; color: white;">
                             ENCENDER POKÉDEX
@@ -49,6 +64,22 @@
                         <div id="captcha-buttons" class="btn-grid"></div>
                     </div>
                 </div>
+
+                <!-- Control de Acceso (Oculto hasta pasar el CAPTCHA) -->
+                <div id="password-section" class="hidden">
+                    <p style="font-size: 10px; margin-bottom: 10px; color: #008000;">¡Correcto! Sistema desbloqueado.</p>
+                    <div class="input-group">
+                        <label>CÓDIGO DE ACCESO:</label>
+                        <input type="password" id="password" placeholder="****">
+                    </div>
+                    <button id="btn-login" class="poke-btn">
+                        ENTRAR <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" width="16">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ==========================================
          SECCIÓN 2: PANTALLA PRINCIPAL (PC DE BILL)
          ========================================== -->
