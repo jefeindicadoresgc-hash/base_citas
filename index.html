@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poké-Citas | Hyundai Coatza</title>
+    <!-- Fuente Retro Arcade -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <!-- Librería para leer Excel en el navegador -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    <!-- Nuestro archivo de estilos -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- SECCIÓN A: PANTALLA DE LOGIN POKÉDEX -->
+    <div id="login-screen" class="screen active">
+        <div class="pokedex-container">
+            <!-- Luces de la Pokédex -->
+            <div class="screen-header">
+                <div class="blue-light"></div>
+                <div class="small-lights">
+                    <div class="red-light"></div>
+                    <div class="yellow-light"></div>
+                    <div class="green-light"></div>
+                </div>
+            </div>
+            
+            <!-- Pantalla principal del Login -->
+            <div class="pokedex-screen">
+                <!-- Sprite de Pikachu directamente de PokéAPI -->
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="Pikachu" class="pokemon-sprite bounce">
+                <h2>CENTRO HYUNDAI</h2>
+                <p>Identifícate para entrar al sistema...</p>
+                
+                <div class="input-group">
+                    <label>USUARIO:</label>
+                    <input type="text" id="username" placeholder="Ej. admin">
+                </div>
+                <div class="input-group">
+                    <label>CONTRASEÑA:</label>
+                    <input type="password" id="password" placeholder="****">
+                </div>
+                
+                <button id="btn-login" class="poke-btn">
+                    ENTRAR <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" width="16">
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN B Y C: PANEL PRINCIPAL Y ADMIN (Lo construiremos en el siguiente paso) -->
+    <div id="main-screen" class="screen hidden">
+        <h1 style="color: white; text-align: center; margin-top: 50px;">Bienvenido al Centro Pokémon. Cargando...</h1>
+    </div>
+
+    <!-- Nuestro archivo lógico (tipo módulo para Firebase) -->
+    <script type="module" src="app.js"></script>
+</body>
+</html>
