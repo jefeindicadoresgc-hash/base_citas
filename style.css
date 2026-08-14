@@ -70,7 +70,6 @@ body {
 .pokedex-screen h2 { font-size: 16px; margin: 10px 0; color: #000; line-height: 1.4; }
 .pokedex-screen p { font-size: 10px; margin-bottom: 20px; color: #555; line-height: 1.5; }
 
-/* Controles de Formulario */
 .input-group { margin-bottom: 15px; text-align: left; }
 .input-group label { font-size: 10px; display: block; margin-bottom: 8px; }
 .input-group input {
@@ -139,9 +138,7 @@ body {
     padding-bottom: 15px;
     margin-bottom: 20px;
 }
-
 .pc-header h2 { color: #fff; font-size: 18px; text-shadow: 2px 2px #000; }
-
 .status-dot {
     display: inline-block;
     width: 12px; height: 12px;
@@ -184,10 +181,10 @@ body {
     z-index: 0;
 }
 .snorlax-img {
-    width: 250px; /* Lo hacemos mucho más grande */
+    width: 250px; 
     opacity: 0.9;
-    border-radius: 20px; /* Para que sus bordes se vean suaves */
-    filter: drop-shadow(5px 10px 15px rgba(0,0,0,0.6)); /* Sombra realista */
+    border-radius: 20px; 
+    filter: drop-shadow(5px 10px 15px rgba(0,0,0,0.6));
 }
 .zzz {
     position: absolute;
@@ -215,17 +212,11 @@ body {
     z-index: 0;
 }
 .squirtle-img {
-    width: 220px; /* Tamaño épico */
+    width: 220px; 
     border-radius: 15px;
     filter: drop-shadow(-5px 10px 15px rgba(0,0,0,0.6));
-    /* Le quitamos la animación CSS de baile porque el GIF ya baila solo */
-}
-@keyframes dance {
-    0% { transform: rotate(-15deg) scaleY(0.9); }
-    100% { transform: rotate(15deg) scaleY(1.1); }
 }
 
-/* Captcha */
 .captcha-box {
     background-color: #fff;
     border: 3px solid #000;
