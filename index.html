@@ -15,66 +15,40 @@
          SECCIÓN 0: DECORACIONES POKÉMON (FONDO)
          ========================================== -->
     <div id="decorations">
-        <!-- Snorlax Acostado -->
+        <!-- Snorlax Acostado (Tu archivo local) -->
         <div class="snorlax-container">
             <div class="zzz zzz1">Z</div>
             <div class="zzz zzz2">z</div>
             <div class="zzz zzz3">z</div>
-            <!-- Cambiamos la ruta a una imagen de alta calidad -->
-            <img src="https://i.pinimg.com/originals/83/8a/be/838abeb43a290bf42125bbda5413b5fb.png" alt="Snorlax Relajado" class="snorlax-img">
+            <img src="image_1774f4.png" alt="Snorlax Relajado" class="snorlax-img">
         </div>
         
-        <!-- Squirtle Saxofonista Epic -->
+        <!-- Squirtle Saxofonista (Tu archivo local) -->
         <div class="squirtle-container">
-            <!-- Usamos un GIF animado épico del Squirtle Squad -->
-            <img src="https://media.tenor.com/7123H6V0p1IAAAAi/squirtle-sax.gif" alt="Squirtle Sax" class="squirtle-img">
+            <img src="image_17749a.png" alt="Squirtle Sax" class="squirtle-img">
         </div>
     </div>
 
-    <!-- ==========================================
-         SECCIÓN 1: PANTALLA DE LOGIN (POKÉDEX)
-         ========================================== -->
-    <div id="login-screen" class="screen active">
-        <div class="pokedex-container">
-            <div class="screen-header">
-                <div class="blue-light"></div>
-                <div class="small-lights">
-                    <div class="red-light"></div>
-                    <div class="yellow-light"></div>
-                    <div class="green-light"></div>
-                </div>
-            </div>
-            
-            <div class="pokedex-screen">
-                <h2>CENTRO HYUNDAI</h2>
-                
+    <!-- ... (El inicio de la Sección 1 se queda igual) ... -->
+
                 <!-- Minijuego CAPTCHA -->
                 <div id="captcha-section" class="captcha-box">
-                    <p class="captcha-title">¿QUIÉN ES ESTE POKÉMON?</p>
-                    <img id="captcha-img" src="" class="silhouette" alt="Misterio">
-                    <!-- Pista oculta a simple vista -->
-                    <p id="captcha-hint" class="hint-text">Cargando pista...</p>
                     
-                    <div id="captcha-buttons" class="btn-grid">
-                        <!-- Los botones se inyectan con JavaScript -->
+                    <!-- NUEVO: Botón para encender y destrabar el audio -->
+                    <div id="power-on-screen">
+                        <button id="btn-power-on" class="poke-btn" style="background-color: #4CAF50; color: white;">
+                            ENCENDER POKÉDEX
+                        </button>
+                    </div>
+
+                    <!-- El juego (Oculto hasta que encienda) -->
+                    <div id="game-screen" class="hidden">
+                        <p class="captcha-title">¿QUIÉN ES ESTE POKÉMON?</p>
+                        <img id="captcha-img" src="" class="silhouette" alt="Misterio">
+                        <p id="captcha-hint" class="hint-text">Cargando pista...</p>
+                        <div id="captcha-buttons" class="btn-grid"></div>
                     </div>
                 </div>
-
-                <!-- Control de Acceso (Oculto hasta pasar el CAPTCHA) -->
-                <div id="password-section" class="hidden">
-                    <p style="font-size: 10px; margin-bottom: 10px; color: #008000;">¡Correcto! Sistema desbloqueado.</p>
-                    <div class="input-group">
-                        <label>CÓDIGO DE ACCESO:</label>
-                        <input type="password" id="password" placeholder="****">
-                    </div>
-                    <button id="btn-login" class="poke-btn">
-                        ENTRAR <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" width="16">
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- ==========================================
          SECCIÓN 2: PANTALLA PRINCIPAL (PC DE BILL)
          ========================================== -->
