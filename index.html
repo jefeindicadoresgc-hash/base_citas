@@ -12,11 +12,27 @@
 <body>
 
     <!-- ==========================================
+         SECCIÓN 0: DECORACIONES POKÉMON (FONDO)
+         ========================================== -->
+    <div id="decorations">
+        <!-- Snorlax Durmiendo -->
+        <div class="snorlax-container">
+            <div class="zzz zzz1">Z</div>
+            <div class="zzz zzz2">z</div>
+            <div class="zzz zzz3">z</div>
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/143.gif" alt="Snorlax" class="snorlax-img">
+        </div>
+        <!-- Squirtle Bailando -->
+        <div class="squirtle-container">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/7.gif" alt="Squirtle" class="squirtle-img">
+        </div>
+    </div>
+
+    <!-- ==========================================
          SECCIÓN 1: PANTALLA DE LOGIN (POKÉDEX)
          ========================================== -->
     <div id="login-screen" class="screen active">
         <div class="pokedex-container">
-            <!-- 1.1 Luces Superiores -->
             <div class="screen-header">
                 <div class="blue-light"></div>
                 <div class="small-lights">
@@ -26,20 +42,32 @@
                 </div>
             </div>
             
-            <!-- 1.2 Pantalla de Acceso -->
             <div class="pokedex-screen">
-                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="Pikachu" class="pokemon-sprite bounce">
                 <h2>CENTRO HYUNDAI</h2>
-                <p>Ingresa el código secreto...</p>
                 
-                <div class="input-group">
-                    <label>CÓDIGO DE ACCESO:</label>
-                    <input type="password" id="password" placeholder="****">
+                <!-- Minijuego CAPTCHA -->
+                <div id="captcha-section" class="captcha-box">
+                    <p class="captcha-title">¿QUIÉN ES ESTE POKÉMON?</p>
+                    <img id="captcha-img" src="" class="silhouette" alt="Misterio">
+                    <!-- Pista oculta a simple vista -->
+                    <p id="captcha-hint" class="hint-text">Cargando pista...</p>
+                    
+                    <div id="captcha-buttons" class="btn-grid">
+                        <!-- Los botones se inyectan con JavaScript -->
+                    </div>
                 </div>
-                
-                <button id="btn-login" class="poke-btn">
-                    ENTRAR <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" width="16">
-                </button>
+
+                <!-- Control de Acceso (Oculto hasta pasar el CAPTCHA) -->
+                <div id="password-section" class="hidden">
+                    <p style="font-size: 10px; margin-bottom: 10px; color: #008000;">¡Correcto! Sistema desbloqueado.</p>
+                    <div class="input-group">
+                        <label>CÓDIGO DE ACCESO:</label>
+                        <input type="password" id="password" placeholder="****">
+                    </div>
+                    <button id="btn-login" class="poke-btn">
+                        ENTRAR <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" width="16">
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -49,42 +77,29 @@
          ========================================== -->
     <div id="main-screen" class="screen hidden pc-background">
         <div class="pc-container">
-            
-            <!-- 2.1 Encabezado del Sistema -->
             <header class="pc-header">
                 <h2>💻 SISTEMA DE ALMACENAMIENTO - HYUNDAI</h2>
                 <div class="pc-status">
                     <span class="status-dot"></span> Conectado a la red
                 </div>
+                <button id="btn-logout" style="background: red; color: white; padding: 5px; cursor: pointer; border: none; border-radius: 4px;">Cerrar Sesión</button>
             </header>
 
-            <!-- ==========================================
-                 SECCIÓN 3: PANEL DE ADMINISTRADOR
-                 ========================================== -->
             <div id="admin-panel" class="admin-panel">
                 <h3>⚙️ Módulo de Carga (Excel)</h3>
                 <input type="file" id="excel-upload" accept=".xls,.xlsx">
                 <p id="upload-status">Esperando archivo mensual...</p>
             </div>
 
-            <!-- ==========================================
-                 SECCIÓN 4: BASE DE DATOS Y TABLA
-                 ========================================== -->
             <div class="table-container">
                 <h3 style="color: white; margin-bottom: 10px;">► Base de Datos de Clientes (Directorio)</h3>
                 <div id="table-wrapper">
                     <p style="color: #6bf;">Iniciando conexión con Firebase para traer a los clientes...</p>
-                    <!-- Aquí se inyectará la tabla interactiva más adelante -->
                 </div>
             </div>
-
         </div>
     </div>
 
-    <!-- ==========================================
-         SECCIÓN 5: SCRIPTS Y LÓGICA DE PROGRAMACIÓN
-         ========================================== -->
     <script type="module" src="app.js"></script>
-
 </body>
 </html>
