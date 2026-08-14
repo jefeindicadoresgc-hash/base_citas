@@ -184,8 +184,10 @@ body {
     z-index: 0;
 }
 .snorlax-img {
-    width: 120px;
-    filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.5));
+    width: 250px; /* Lo hacemos mucho más grande */
+    opacity: 0.9;
+    border-radius: 20px; /* Para que sus bordes se vean suaves */
+    filter: drop-shadow(5px 10px 15px rgba(0,0,0,0.6)); /* Sombra realista */
 }
 .zzz {
     position: absolute;
@@ -213,9 +215,10 @@ body {
     z-index: 0;
 }
 .squirtle-img {
-    width: 90px;
-    filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.5));
-    animation: dance 0.8s infinite alternate ease-in-out;
+    width: 220px; /* Tamaño épico */
+    border-radius: 15px;
+    filter: drop-shadow(-5px 10px 15px rgba(0,0,0,0.6));
+    /* Le quitamos la animación CSS de baile porque el GIF ya baila solo */
 }
 @keyframes dance {
     0% { transform: rotate(-15deg) scaleY(0.9); }
