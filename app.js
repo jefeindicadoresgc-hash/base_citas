@@ -31,41 +31,34 @@ const btnLogin = document.getElementById('btn-login');
 const inputPass = document.getElementById('password');
 const btnLogout = document.getElementById('btn-logout');
 
-// Elementos del CAPTCHA
 const captchaImg = document.getElementById('captcha-img');
 const captchaHint = document.getElementById('captcha-hint');
 const captchaButtons = document.getElementById('captcha-buttons');
-const captchaSection = document.getElementById('captcha-section');
 const passwordSection = document.getElementById('password-section');
-
-// Elemento de la Tabla
 const tableWrapper = document.getElementById('table-wrapper');
+
+const btnPowerOn = document.getElementById('btn-power-on');
+const powerOnScreen = document.getElementById('power-on-screen');
+const gameScreen = document.getElementById('game-screen');
 
 let captchaPassed = false;
 
 // ==========================================
-// 5. LÓGICA DE INICIO DE SESIÓN Y MEMORIA (1 DÍA)
+// 5. LÓGICA DE INICIO DE SESIÓN
 // ==========================================
 function checkDailyLogin() {
     const today = new Date().toLocaleDateString();
     const savedDate = localStorage.getItem('pokeLoginDate');
 
     if (savedDate === today) {
-        // Ya inició sesión hoy, salta directo a la PC
         loginScreen.classList.remove('active');
         loginScreen.classList.add('hidden');
         mainScreen.classList.remove('hidden');
         mainScreen.classList.add('active');
-        
-        // Llamar a los clientes de Firebase
         loadClients();
-    } else {
-        // Es un nuevo día, cargar el minijuego
-        loadCaptcha();
     }
 }
 
-// Botón Entrar (Valida contraseña y guarda el día)
 btnLogin.addEventListener('click', () => {
     if (!captchaPassed) {
         alert("⚠️ Primero debes adivinar el Pokémon.");
@@ -73,30 +66,23 @@ btnLogin.addEventListener('click', () => {
     }
     const pass = inputPass.value.trim();
     if (pass === "2099") {
-        // Guardar la fecha de hoy en la memoria del navegador
         const today = new Date().toLocaleDateString();
         localStorage.setItem('pokeLoginDate', today);
-
-        // Ocultar Pokédex y Mostrar Sistema
         loginScreen.classList.remove('active');
         loginScreen.classList.add('hidden');
         mainScreen.classList.remove('hidden');
         mainScreen.classList.add('active');
-        
-        // Llamar a los clientes de Firebase
         loadClients();
     } else {
         alert("❌ Código incorrecto.");
     }
 });
 
-// Cerrar sesión manualmente (Borra la memoria)
 btnLogout.addEventListener('click', () => {
     localStorage.removeItem('pokeLoginDate');
-    location.reload(); // Recarga la página
+    location.reload(); 
 });
 
-// Permitir entrar usando la tecla ENTER
 inputPass.addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
         btnLogin.click();
@@ -104,24 +90,17 @@ inputPass.addEventListener('keypress', function (e) {
 });
 
 // ==========================================
-// 5.1 MINIJUEGO: ¿QUIÉN ES ESE POKÉMON?
+// 5.1 MINIJUEGO Y AUDIO
 // ==========================================
-const btnPowerOn = document.getElementById('btn-power-on');
-const powerOnScreen = document.getElementById('power-on-screen');
-const gameScreen = document.getElementById('game-screen');
-
-// El botón que destraba el audio
 btnPowerOn.addEventListener('click', () => {
-    // 1. Ocultar botón y mostrar el juego
     powerOnScreen.classList.add('hidden');
     gameScreen.classList.remove('hidden');
     
-    // 2. REPRODUCIR AUDIO (Ahora sí el navegador nos deja)
+    // Reproducir Audio
     const audio = new Audio("https://www.myinstants.com/media/sounds/whos-that-pokemon_.mp3");
     audio.volume = 0.6;
-    audio.play();
+    audio.play().catch(e => console.log("Audio bloqueado:", e));
 
-    // 3. Cargar el Pokémon
     loadCaptcha();
 });
 
@@ -171,31 +150,25 @@ async function loadCaptcha() {
             captchaButtons.appendChild(btn);
         });
     } catch (error) {
-        console.error("Error cargando CAPTCHA:", error);
-        captchaHint.textContent = "Error de red. Intenta recargar la página.";
+        console.error("Error:", error);
+        captchaHint.textContent = "Error de red. Intenta recargar.";
     }
 }
-// ==========================================
-// 6. LÓGICA DE CARGA DE EXCEL (Próximamente)
-// ==========================================
-// Aquí conectaremos SheetJS más adelante...
 
 // ==========================================
-// 7. LÓGICA DE TABLA DE CLIENTES (Directorio)
+// 6. DESCARGA DE FIREBASE (TABLA)
 // ==========================================
 async function loadClients() {
     try {
         tableWrapper.innerHTML = "<p style='color: #6bf;'>Buscando registros en la base de datos...</p>";
         
-        // Llamada a Firebase
         const querySnapshot = await getDocs(collection(db, "clientes_primer_servicio"));
         
         if (querySnapshot.empty) {
-            tableWrapper.innerHTML = "<p style='color: white;'>No hay clientes registrados. Por favor carga el Excel mensual.</p>";
+            tableWrapper.innerHTML = "<p style='color: white;'>No hay clientes registrados.</p>";
             return;
         }
 
-        // Armamos el esqueleto de la tabla
         let html = `
             <table class="poke-table">
                 <thead>
@@ -212,7 +185,6 @@ async function loadClients() {
                 <tbody>
         `;
 
-        // Rellenamos las filas con los datos de Firebase
         querySnapshot.forEach((doc) => {
             const data = doc.data();
             html += `
@@ -229,15 +201,12 @@ async function loadClients() {
         });
 
         html += `</tbody></table>`;
-        tableWrapper.innerHTML = html; // Inyectamos la tabla armada en la pantalla
+        tableWrapper.innerHTML = html;
 
     } catch (error) {
-        console.error("Error cargando clientes:", error);
-        tableWrapper.innerHTML = "<p style='color: red;'>Error de conexión. Revisa la consola para más detalles.</p>";
+        console.error("Error:", error);
+        tableWrapper.innerHTML = "<p style='color: red;'>Error de conexión.</p>";
     }
 }
 
-// ==========================================
-// EJECUCIÓN INICIAL AL CARGAR LA PÁGINA
-// ==========================================
 checkDailyLogin();
