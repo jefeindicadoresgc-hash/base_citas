@@ -1,4 +1,26 @@
-// (Mantén tus importaciones y configuración de Firebase en las Secciones 1, 2 y 3)
+// ==========================================
+// 1. IMPORTACIONES DE FIREBASE
+// ==========================================
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+
+// ==========================================
+// 2. CONFIGURACIÓN OFICIAL
+// ==========================================
+const firebaseConfig = {
+  apiKey: "AIzaSyC1DVA61DPFlbGSWr45GYqeAGg89-k5a4g",
+  authDomain: "citas-hyundai-coatza.firebaseapp.com",
+  projectId: "citas-hyundai-coatza",
+  storageBucket: "citas-hyundai-coatza.firebasestorage.app",
+  messagingSenderId: "333064695297",
+  appId: "1:333064695297:web:da997c42555b2cb7bc1a00"
+};
+
+// ==========================================
+// 3. INICIALIZACIÓN
+// ==========================================
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 // ==========================================
 // 4. CONEXIÓN CON EL HTML (DOM)
@@ -16,6 +38,9 @@ const captchaButtons = document.getElementById('captcha-buttons');
 const captchaSection = document.getElementById('captcha-section');
 const passwordSection = document.getElementById('password-section');
 
+// Elemento de la Tabla
+const tableWrapper = document.getElementById('table-wrapper');
+
 let captchaPassed = false;
 
 // ==========================================
@@ -31,7 +56,9 @@ function checkDailyLogin() {
         loginScreen.classList.add('hidden');
         mainScreen.classList.remove('hidden');
         mainScreen.classList.add('active');
-        console.log("Sesión activa recuperada del navegador.");
+        
+        // Llamar a los clientes de Firebase
+        loadClients();
     } else {
         // Es un nuevo día, cargar el minijuego
         loadCaptcha();
@@ -50,10 +77,14 @@ btnLogin.addEventListener('click', () => {
         const today = new Date().toLocaleDateString();
         localStorage.setItem('pokeLoginDate', today);
 
+        // Ocultar Pokédex y Mostrar Sistema
         loginScreen.classList.remove('active');
         loginScreen.classList.add('hidden');
         mainScreen.classList.remove('hidden');
         mainScreen.classList.add('active');
+        
+        // Llamar a los clientes de Firebase
+        loadClients();
     } else {
         alert("❌ Código incorrecto.");
     }
@@ -63,6 +94,13 @@ btnLogin.addEventListener('click', () => {
 btnLogout.addEventListener('click', () => {
     localStorage.removeItem('pokeLoginDate');
     location.reload(); // Recarga la página
+});
+
+// Permitir entrar usando la tecla ENTER
+inputPass.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        btnLogin.click();
+    }
 });
 
 // ==========================================
@@ -126,7 +164,69 @@ async function loadCaptcha() {
     }
 }
 
-// Ejecutar revisión inicial al cargar la página
-checkDailyLogin();
+// ==========================================
+// 6. LÓGICA DE CARGA DE EXCEL (Próximamente)
+// ==========================================
+// Aquí conectaremos SheetJS más adelante...
 
-// (Mantén tus Secciones 6 y 7 de lógica de tabla intactas al final)
+// ==========================================
+// 7. LÓGICA DE TABLA DE CLIENTES (Directorio)
+// ==========================================
+async function loadClients() {
+    try {
+        tableWrapper.innerHTML = "<p style='color: #6bf;'>Buscando registros en la base de datos...</p>";
+        
+        // Llamada a Firebase
+        const querySnapshot = await getDocs(collection(db, "clientes_primer_servicio"));
+        
+        if (querySnapshot.empty) {
+            tableWrapper.innerHTML = "<p style='color: white;'>No hay clientes registrados. Por favor carga el Excel mensual.</p>";
+            return;
+        }
+
+        // Armamos el esqueleto de la tabla
+        let html = `
+            <table class="poke-table">
+                <thead>
+                    <tr>
+                        <th>CLIENTE</th>
+                        <th>TELÉFONO</th>
+                        <th>FECHA SERVICIO</th>
+                        <th>TIPO</th>
+                        <th>CITADO</th>
+                        <th>T-45</th>
+                        <th>MEDIO T-45</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+
+        // Rellenamos las filas con los datos de Firebase
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            html += `
+                <tr>
+                    <td>${data.nombre_cliente || ''}</td>
+                    <td>${data.telefono || ''}</td>
+                    <td>${data.fecha_servicio || ''}</td>
+                    <td>${data.tipo_cliente || ''}</td>
+                    <td>${data.citado || ''}</td>
+                    <td>${data.t_45 || ''}</td>
+                    <td>${data.medio_t45 || ''}</td>
+                </tr>
+            `;
+        });
+
+        html += `</tbody></table>`;
+        tableWrapper.innerHTML = html; // Inyectamos la tabla armada en la pantalla
+
+    } catch (error) {
+        console.error("Error cargando clientes:", error);
+        tableWrapper.innerHTML = "<p style='color: red;'>Error de conexión. Revisa la consola para más detalles.</p>";
+    }
+}
+
+// ==========================================
+// EJECUCIÓN INICIAL AL CARGAR LA PÁGINA
+// ==========================================
+checkDailyLogin();
