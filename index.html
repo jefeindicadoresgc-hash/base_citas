@@ -4,18 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Poké-Citas | Hyundai Coatza</title>
-    <!-- Fuente Retro Arcade -->
+    <!-- Fuentes y Librerías -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <!-- Librería para leer Excel en el navegador -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-    <!-- Nuestro archivo de estilos -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- SECCIÓN A: PANTALLA DE LOGIN POKÉDEX -->
+
+    <!-- ==========================================
+         SECCIÓN 1: PANTALLA DE LOGIN (POKÉDEX)
+         ========================================== -->
     <div id="login-screen" class="screen active">
         <div class="pokedex-container">
-            <!-- Luces de la Pokédex -->
+            <!-- 1.1 Luces Superiores -->
             <div class="screen-header">
                 <div class="blue-light"></div>
                 <div class="small-lights">
@@ -25,19 +26,14 @@
                 </div>
             </div>
             
-            <!-- Pantalla principal del Login -->
+            <!-- 1.2 Pantalla de Acceso -->
             <div class="pokedex-screen">
-                <!-- Sprite de Pikachu directamente de PokéAPI -->
                 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="Pikachu" class="pokemon-sprite bounce">
                 <h2>CENTRO HYUNDAI</h2>
-                <p>Identifícate para entrar al sistema...</p>
+                <p>Ingresa el código secreto...</p>
                 
                 <div class="input-group">
-                    <label>USUARIO:</label>
-                    <input type="text" id="username" placeholder="Ej. admin">
-                </div>
-                <div class="input-group">
-                    <label>CONTRASEÑA:</label>
+                    <label>CÓDIGO DE ACCESO:</label>
                     <input type="password" id="password" placeholder="****">
                 </div>
                 
@@ -48,12 +44,47 @@
         </div>
     </div>
 
-    <!-- SECCIÓN B Y C: PANEL PRINCIPAL Y ADMIN (Lo construiremos en el siguiente paso) -->
-    <div id="main-screen" class="screen hidden">
-        <h1 style="color: white; text-align: center; margin-top: 50px;">Bienvenido al Centro Pokémon. Cargando...</h1>
+    <!-- ==========================================
+         SECCIÓN 2: PANTALLA PRINCIPAL (PC DE BILL)
+         ========================================== -->
+    <div id="main-screen" class="screen hidden pc-background">
+        <div class="pc-container">
+            
+            <!-- 2.1 Encabezado del Sistema -->
+            <header class="pc-header">
+                <h2>💻 SISTEMA DE ALMACENAMIENTO - HYUNDAI</h2>
+                <div class="pc-status">
+                    <span class="status-dot"></span> Conectado a la red
+                </div>
+            </header>
+
+            <!-- ==========================================
+                 SECCIÓN 3: PANEL DE ADMINISTRADOR
+                 ========================================== -->
+            <div id="admin-panel" class="admin-panel">
+                <h3>⚙️ Módulo de Carga (Excel)</h3>
+                <input type="file" id="excel-upload" accept=".xls,.xlsx">
+                <p id="upload-status">Esperando archivo mensual...</p>
+            </div>
+
+            <!-- ==========================================
+                 SECCIÓN 4: BASE DE DATOS Y TABLA
+                 ========================================== -->
+            <div class="table-container">
+                <h3 style="color: white; margin-bottom: 10px;">► Base de Datos de Clientes (Directorio)</h3>
+                <div id="table-wrapper">
+                    <p style="color: #6bf;">Iniciando conexión con Firebase para traer a los clientes...</p>
+                    <!-- Aquí se inyectará la tabla interactiva más adelante -->
+                </div>
+            </div>
+
+        </div>
     </div>
 
-    <!-- Nuestro archivo lógico (tipo módulo para Firebase) -->
+    <!-- ==========================================
+         SECCIÓN 5: SCRIPTS Y LÓGICA DE PROGRAMACIÓN
+         ========================================== -->
     <script type="module" src="app.js"></script>
+
 </body>
 </html>
