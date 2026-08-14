@@ -113,8 +113,15 @@ async function loadCaptcha() {
     passwordSection.classList.add('hidden');
     captchaButtons.innerHTML = "Cargando...";
 
+    // --- NUEVO: REPRODUCIR AUDIO ---
+    const audio = new Audio("https://www.myinstants.com/media/sounds/whos-that-pokemon_.mp3");
+    audio.volume = 0.5; // Volumen al 50% para no asustar
+    audio.play().catch(e => console.log("El navegador bloqueó el auto-play del audio."));
+    // -------------------------------
+
     try {
         // Elegir 3 números al azar de la 1ra Generación (1 al 151)
+// ... (el resto del código de la función se queda igual)
         const randomIds = [];
         while(randomIds.length < 3) {
             let r = Math.floor(Math.random() * 151) + 1;
