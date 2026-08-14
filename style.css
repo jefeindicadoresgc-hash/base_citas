@@ -86,3 +86,42 @@
     text-transform: capitalize;
 }
 .btn-captcha:hover { background-color: #ffde00; color: #000; }
+
+/* =========================================
+   SECCIÓN 6: TABLA DE DATOS POKÉMON
+   ========================================= */
+.poke-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    color: #222;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente limpia para leer fácil */
+    font-size: 12px;
+    border: 3px solid #000;
+}
+
+.poke-table th {
+    background-color: #3b4cca;
+    color: #fff;
+    padding: 12px;
+    border: 2px solid #000;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 8px;
+    text-align: left;
+}
+
+.poke-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    font-weight: bold;
+}
+
+.poke-table tr:nth-child(even) {
+    background-color: #e6ecf0; /* Azul muy clarito para intercalar filas */
+}
+
+.poke-table tr:hover {
+    background-color: #ffde00; /* Se pinta amarillo al pasar el ratón */
+    cursor: pointer;
+}
+|
