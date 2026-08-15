@@ -44,21 +44,37 @@ const gameScreen = document.getElementById('game-screen');
 let captchaPassed = false;
 
 // ==========================================
-// 5. LÓGICA DE INICIO DE SESIÓN
+// 5. LÓGICA DE INICIO DE SESIÓN Y MEMORIA
 // ==========================================
+
+// Llamamos a los elementos del Equipo Rocket y Decoraciones
+const rocketModal = document.getElementById('rocket-modal');
+const closeModal = document.getElementById('close-modal');
+const decorations = document.getElementById('decorations'); // Snorlax y Squirtle
+
 function checkDailyLogin() {
     const today = new Date().toLocaleDateString();
     const savedDate = localStorage.getItem('pokeLoginDate');
 
     if (savedDate === today) {
+        // Ya inició sesión hoy, salta directo a la PC y oculta las decoraciones
         loginScreen.classList.remove('active');
         loginScreen.classList.add('hidden');
+        decorations.classList.add('hidden'); 
+        
         mainScreen.classList.remove('hidden');
         mainScreen.classList.add('active');
         loadClients();
     }
 }
 
+// Cerrar la ventana del Equipo Rocket
+closeModal.addEventListener('click', () => {
+    rocketModal.classList.add('hidden');
+    inputPass.value = ""; // Limpiar la contraseña para intentar de nuevo
+});
+
+// Botón Entrar
 btnLogin.addEventListener('click', () => {
     if (!captchaPassed) {
         alert("⚠️ Primero debes adivinar el Pokémon.");
@@ -66,27 +82,44 @@ btnLogin.addEventListener('click', () => {
     }
     const pass = inputPass.value.trim();
     if (pass === "2099") {
+        // Guardar día en memoria
         const today = new Date().toLocaleDateString();
         localStorage.setItem('pokeLoginDate', today);
+        
+        // ¡SERPENTINAS!
+        confetti({
+            particleCount: 150,
+            spread: 80,
+            origin: { y: 0.6 }
+        });
+
+        // Ocultar Pokédex y DECORACIONES (Snorlax y Squirtle)
         loginScreen.classList.remove('active');
         loginScreen.classList.add('hidden');
+        decorations.classList.add('hidden'); // Aquí desaparecen
+
+        // Mostrar Sistema Limpio
         mainScreen.classList.remove('hidden');
         mainScreen.classList.add('active');
+        
         loadClients();
     } else {
-        alert("❌ Código incorrecto.");
+        // Mostrar Modal del Equipo Rocket
+        rocketModal.classList.remove('hidden');
     }
 });
 
-btnLogout.addEventListener('click', () => {
-    localStorage.removeItem('pokeLoginDate');
-    location.reload(); 
-});
-
+// Permitir entrar usando la tecla ENTER
 inputPass.addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
         btnLogin.click();
     }
+});
+
+// Cerrar sesión manualmente (Borra la memoria)
+btnLogout.addEventListener('click', () => {
+    localStorage.removeItem('pokeLoginDate');
+    location.reload(); 
 });
 
 // ==========================================
@@ -99,7 +132,7 @@ btnPowerOn.addEventListener('click', () => {
     // Reproducir Audio
     const audio = new Audio("https://www.myinstants.com/media/sounds/whos-that-pokemon_.mp3");
     audio.volume = 0.6;
-    audio.play().catch(e => console.log("Audio bloqueado:", e));
+    audio.play().catch(e => console.log("Audio bloqueado por el navegador:", e));
 
     loadCaptcha();
 });
