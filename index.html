@@ -8,6 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
     <link rel="stylesheet" href="style.css">
+    <!-- Librería para Serpentinas (Confeti) -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 
@@ -23,11 +25,10 @@
             <img src="image_1774f4.png" alt="Snorlax Relajado" class="snorlax-img">
         </div>
         
-        <!-- Squirtle (Aparecerá cuando subas tu imagen image_17749a.png) -->
-        <div class="squirtle-container">
-            <img src="image_17749a.png" alt="Squirtle Sax" class="squirtle-img">
+<!-- Squirtle Squad Embed -->
+        <div class="squirtle-container" style="width: 150px;">
+            <div class="tenor-gif-embed" data-postid="21880268" data-share-method="host" data-aspect-ratio="1.32231" data-width="100%"><a href="https://tenor.com/view/squirtle-squad-drink-pokemon-squirtle-nod-gif-21880268">Squirtle Squad Drink GIF</a>from <a href="https://tenor.com/search/squirtle+squad-gifs">Squirtle Squad GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
         </div>
-    </div>
 
     <!-- ==========================================
          SECCIÓN 1: PANTALLA DE LOGIN (POKÉDEX)
@@ -44,7 +45,10 @@
             </div>
             
             <div class="pokedex-screen">
-                <h2>CENTRO HYUNDAI</h2>
+                <div class="title-container">
+                    <h2 class="typewriter-title">POKE CITAS</h2>
+                    <h3 class="typewriter-subtitle">HYUNDAI COATZA</h3>
+                </div>
                 
                 <!-- Minijuego CAPTCHA -->
                 <div id="captcha-section" class="captcha-box">
@@ -109,5 +113,17 @@
     </div>
 
     <script type="module" src="app.js"></script>
+
+        <!-- ==========================================
+         VENTANA DE ERROR (EQUIPO ROCKET)
+         ========================================== -->
+    <div id="rocket-modal" class="modal hidden">
+        <div class="modal-content">
+            <img src="https://media.tenor.com/t34Q9m_pPZQAAAAi/team-rocket-meowth.gif" width="150" alt="Team Rocket">
+            <h3 style="color: red; margin-top: 10px; font-size: 14px;">¡PREPÁRATE PARA LOS PROBLEMAS!</h3>
+            <p style="font-size: 10px; margin: 15px 0;">Contraseña incorrecta. ¡El Team Rocket te ha descubierto!</p>
+            <button id="close-modal" class="poke-btn">INTENTAR DE NUEVO</button>
+        </div>
+    </div>
 </body>
 </html>
