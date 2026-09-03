@@ -1,129 +1,92 @@
+<!-- [SECCIÓN 1: HEAD Y LIBRERÍAS] -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Poké-Citas | Hyundai Coatza</title>
-    <!-- Fuentes y Librerías -->
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    <title>Dashboard Citas - Smash Edition</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Librería para Serpentinas (Confeti) -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 </head>
 <body>
 
-    <!-- ==========================================
-         SECCIÓN 0: DECORACIONES POKÉMON (FONDO)
-         ========================================== -->
-    <div id="decorations">
-        <!-- Snorlax (Aparecerá cuando subas tu imagen image_1774f4.png) -->
-        <div class="snorlax-container">
-            <div class="zzz zzz1">Z</div>
-            <div class="zzz zzz2">z</div>
-            <div class="zzz zzz3">z</div>
-            <img src="image_1774f4.png" alt="Snorlax Relajado" class="snorlax-img">
+    <!-- [SECCIÓN 2: CONTROLES SUPERIORES (BARRA Y PERFIL)] -->
+    <div class="top-bar">
+        <div id="admin-controls" style="display:none; gap: 10px;">
+            <button class="btn-admin" id="btnAgregarMotivo">+ Motivo</button>
+            <button class="btn-admin" id="btnQuitarMotivo" style="background:#ff5f57;">- Quitar Motivo</button>
+            <button class="btn-admin" id="btnLimpiarBase" style="background:#ff0000; color:white; margin-left: 20px;">⚠️ Limpiar Día</button>
         </div>
-        
-<!-- Squirtle Squad Embed -->
-        <div class="squirtle-container" style="width: 150px;">
-            <div class="tenor-gif-embed" data-postid="21880268" data-share-method="host" data-aspect-ratio="1.32231" data-width="100%"><a href="https://tenor.com/view/squirtle-squad-drink-pokemon-squirtle-nod-gif-21880268">Squirtle Squad Drink GIF</a>from <a href="https://tenor.com/search/squirtle+squad-gifs">Squirtle Squad GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <!-- Botón visible para todos por defecto -->
+            <button id="btnSinCita" style="background:var(--smash-blue); color:white; font-family:'Bebas Neue'; font-size:1.5rem; border:2px solid #fff; padding:5px 15px; cursor:pointer; border-radius:5px;">+ AGREGAR SIN CITA</button>
+            <select id="userRole" class="role-selector">
+                <option value="asesor">👤 Perfil: Asesor</option>
+            </select>
+            <button id="btnUnlock" style="background:transparent; border:none; cursor:pointer; font-size:1.5rem; text-shadow: 0 0 5px #00ffff;" title="Desbloquear Perfiles">🔒</button>
         </div>
+    </div>
 
-    <!-- ==========================================
-         SECCIÓN 1: PANTALLA DE LOGIN (POKÉDEX)
-         ========================================== -->
-    <div id="login-screen" class="screen active">
-        <div class="pokedex-container">
-            <div class="screen-header">
-                <div class="blue-light"></div>
-                <div class="small-lights">
-                    <div class="red-light"></div>
-                    <div class="yellow-light"></div>
-                    <div class="green-light"></div>
-                </div>
+    <h1 style="margin-bottom: 0;">PREPIKING</h1>
+    <h2 style="text-align: center; color: var(--smash-blue); font-family: 'Bebas Neue', cursive; letter-spacing: 2px; margin-top: 0; font-size: 2.5rem;">HYUNDAI COATZA</h2>
+
+    <div class="upload-zone" id="uploadArea" style="display:none;">
+        <input type="file" id="excelFile" accept=".xls,.xlsx" style="display: none;">
+        <button class="btn-upload" onclick="document.getElementById('excelFile').click()">
+            ▶ CARGAR EXCEL AL SERVIDOR
+        </button>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="prepiking">PREPIKING</button>
+        <button class="tab-btn" id="btnTabNoShow" data-tab="noshow" style="display: none;">NO SHOW</button>
+    </div>
+
+    <div class="ko-splash" id="ko-anim">¡K.O.!</div>
+
+    <div id="gifOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:9999; align-items:center; justify-content:center;">
+        <img id="tardyGif" src="" style="max-width: 80%; max-height: 80%; border: 5px solid red; border-radius: 15px; box-shadow: 0 0 30px red;">
+    </div>
+
+    <div id="modalNoShow" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999; align-items:center; justify-content:center;">
+        <div class="card">
+            <div class="mac-header">
+                <span class="red"></span><span class="yellow"></span><span class="green"></span>
             </div>
-            
-            <div class="pokedex-screen">
-                <div class="title-container">
-                    <h2 class="typewriter-title">POKE CITAS</h2>
-                    <h3 class="typewriter-subtitle">HYUNDAI COATZA</h3>
-                </div>
-                
-                <!-- Minijuego CAPTCHA -->
-                <div id="captcha-section" class="captcha-box">
-                    
-                    <!-- Botón para encender y destrabar el audio -->
-                    <div id="power-on-screen">
-                        <button id="btn-power-on" class="poke-btn" style="background-color: #4CAF50; color: white;">
-                            ENCENDER POKÉDEX
-                        </button>
-                    </div>
-
-                    <!-- El juego (Oculto hasta que encienda) -->
-                    <div id="game-screen" class="hidden">
-                        <p class="captcha-title">¿QUIÉN ES ESTE POKÉMON?</p>
-                        <img id="captcha-img" src="" class="silhouette" alt="Misterio">
-                        <p id="captcha-hint" class="hint-text">Cargando pista...</p>
-                        <div id="captcha-buttons" class="btn-grid"></div>
-                    </div>
-                </div>
-
-                <!-- Control de Acceso (Oculto hasta pasar el CAPTCHA) -->
-                <div id="password-section" class="hidden">
-                    <p style="font-size: 10px; margin-bottom: 10px; color: #008000;">¡Correcto! Sistema desbloqueado.</p>
-                    <div class="input-group">
-                        <label>CÓDIGO DE ACCESO:</label>
-                        <input type="password" id="password" placeholder="****">
-                    </div>
-                    <button id="btn-login" class="poke-btn">
-                        ENTRAR <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" width="16">
-                    </button>
-                </div>
+            <h3 class="card-title">⚠️ Confirmación Requerida</h3>
+            <p class="card-description">¿Estás seguro que el cliente NO ASISTIÓ? Esta cita pasará al panel de NO SHOW.</p>
+            <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+                <button id="btnCancelNoShow" style="padding:8px 15px; border-radius:5px; border:none; background:#333; color:#fff; cursor:pointer; font-family:'Teko', sans-serif; font-size:1.2rem;">Cancelar</button>
+                <button id="btnConfirmNoShow" style="padding:8px 15px; border-radius:5px; border:none; background:#ff5f57; color:#fff; cursor:pointer; font-family:'Teko', sans-serif; font-size:1.2rem; text-shadow:1px 1px 2px #000;">Sí, No Asistió</button>
             </div>
         </div>
     </div>
 
-    <!-- ==========================================
-         SECCIÓN 2: PANTALLA PRINCIPAL (PC DE BILL)
-         ========================================== -->
-    <div id="main-screen" class="screen hidden pc-background">
-        <div class="pc-container">
-            <header class="pc-header">
-                <h2>💻 SISTEMA DE ALMACENAMIENTO - HYUNDAI</h2>
-                <div class="pc-status">
-                    <span class="status-dot"></span> Conectado a la red
-                </div>
-                <button id="btn-logout" style="background: red; color: white; padding: 5px; cursor: pointer; border: none; border-radius: 4px;">Cerrar Sesión</button>
-            </header>
-
-            <div id="admin-panel" class="admin-panel">
-                <h3>⚙️ Módulo de Carga (Excel)</h3>
-                <input type="file" id="excel-upload" accept=".xls,.xlsx">
-                <p id="upload-status">Esperando archivo mensual...</p>
-            </div>
-
-            <div class="table-container">
-                <h3 style="color: white; margin-bottom: 10px;">► Base de Datos de Clientes (Directorio)</h3>
-                <div id="table-wrapper">
-                    <p style="color: #6bf;">Iniciando conexión con Firebase para traer a los clientes...</p>
-                </div>
-            </div>
-        </div>
+    <div class="table-container active" id="tab-prepiking">
+        <table id="tabla-prepiking">
+            <thead>
+                <tr id="thead-prepiking">
+                    <th>Asesor</th><th>Fecha</th><th>Hora</th><th>Folio</th>
+                    <th>Cliente</th><th>Vehículo</th><th>Serie (VIN)</th><th>Placas</th><th>Servicio</th>
+                    <th>Asistencia</th><th>Calificación</th><th>Comentarios</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-prepiking"></tbody>
+        </table>
     </div>
 
-    <script type="module" src="app.js"></script>
-
-        <!-- ==========================================
-         VENTANA DE ERROR (EQUIPO ROCKET)
-         ========================================== -->
-    <div id="rocket-modal" class="modal hidden">
-        <div class="modal-content">
-            <img src="https://media.tenor.com/t34Q9m_pPZQAAAAi/team-rocket-meowth.gif" width="150" alt="Team Rocket">
-            <h3 style="color: red; margin-top: 10px; font-size: 14px;">¡PREPÁRATE PARA LOS PROBLEMAS!</h3>
-            <p style="font-size: 10px; margin: 15px 0;">Contraseña incorrecta. ¡El Team Rocket te ha descubierto!</p>
-            <button id="close-modal" class="poke-btn">INTENTAR DE NUEVO</button>
-        </div>
+    <div class="table-container" id="tab-noshow">
+        <table id="tabla-noshow">
+            <thead>
+                <tr id="thead-noshow">
+                    <th>Asesor</th><th>Fecha</th><th>Folio</th><th>Cliente</th><th>Vehículo</th><th>Serie (VIN)</th><th>Placas</th>
+                    <th>Motivo de NO SHOW</th><th>¿Reagendó?</th><th>Fecha Reagendo</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-noshow"></tbody>
+        </table>
     </div>
+
+    <!-- Vincular el script de JS como módulo -->
+    <script type="module" src="script.js"></script>
 </body>
 </html>
